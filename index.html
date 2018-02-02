@@ -1,0 +1,254 @@
+<html>
+<head>
+<title>Simulador ERP - ACO</title>
+</head>
+<body>
+	<div>
+		<div style="text-align: center;"">
+			<H1>ERP - Simulator using Ant Colony Optmization</H1>
+		</div>
+		<table style="width: 100%; font-size: 0.8em;" border="1px">
+
+		    <tr align="center" >
+		        <th style="padding:2.5px; width: 50%;" >MAP</th>
+		        <th style="padding:2.5px; width: 50%;" >CONFIGURATIONS</th>
+		    </tr>
+		    <tr>
+			 	<th>
+			 		<div>
+				 		<div style="width:657px;height:20px;text-align:center;clear:both;">X</div>
+				 		<div style="width:20px;padding-top:300px;float:left;">Y</div>
+				    	<div style="width:402px;float:left" id="div-canvas">
+				    	</div >
+				    		<canvas id="graph" style="background-color: gainsboro; width:600px; height: 501px"></canvas>
+				    	</div>
+					</div>
+		    	</th>
+		    	<th>
+		    		<div>
+							<br>
+					        <table id="aco-params">
+					            <tbody>
+					            <tr>
+					                <td colspan="2"><b>Configuration ERP</b></td>
+					            </tr>
+					            <tr>
+					                <td>START/END: </td>
+					                <td>
+					                    <select id="erp-se">
+					                        <option value="acs">END</option>
+					                        <option value="start" selected="selected">START</option>
+					                    </select>
+					                </td>
+					                <td>
+					                	<button> ADD</button>
+					                </td>
+					            </tr>
+					            <tr>
+					                <td>ROLE NAME: </td>
+					                <td>
+					                   <input type="text" name="erp-role">  </input>
+					                </td>
+					                <td>
+					                	<button  id="draw-line" onclick="draw_line()"> ADD</button>
+					                </td>
+					            </tr>
+					            <tr>
+					               <td>ADD process: </td>
+					                <td>
+					                   <input type="text" name="erp-name-process">  </input>
+					                </td>
+					                <td>
+					                	<button> ADD</button>
+					                </td>
+					            </tr>
+					           <tr>
+					               <td>Connect to process: </td>
+					                <td>
+					                    <select id="erp-process">
+					                       
+					                    </select>
+					                </td>
+					                <td>
+					                	<button> ADD</button>
+					                </td>
+					            </tr>
+					        </tbody>
+					    </table>
+					    <br>
+					</div>
+						<div>
+							<br>
+					        <table id="aco-params">
+					            <tbody><tr>
+					                <td colspan="2"><b>Configuration ACO</b></td>
+					            </tr>
+					            <tr>
+					                <td>ACO Mode: </td>
+					                <td>
+					                    <select id="aco-mode">
+					                        <option value="acs">ACS</option>
+					                        <option value="elitist">Elitist</option>
+					                        <option value="maxmin" selected="selected">Max-Min</option>
+					                    </select>
+					                </td>
+					            </tr>
+					            <tr style="display:none;" id="elitist-weight-input">
+					                <td>Elitist Weight: </td>
+					                <td>
+					                    <select id="elitist-weight">
+					                        <option value="0.1">0.1</option>
+					                        <option value="0.5">0.5</option>
+					                        <option value="1">1</option>
+					                        <option value="2" selected="selected">2</option>
+					                        <option value="5">5</option>
+					                        <option value="10">10</option>
+					                    </select><br><br>
+					                </td>
+					            </tr>
+					            <tr class="maxmin-params">
+					                <td>Max Pheromone: </td><td class="light-text">(1 * Pheromone Deposit Weight) / Best distance</td>
+					            </tr>
+					            <tr class="maxmin-params">
+					                <td>Min Pheromone: </td><td class="light-text">Max Pheromone * Scaling Factor</td>
+					            </tr>
+					            <tr class="maxmin-params">
+					                <td>Min Scaling Factor: </td><td>
+					                <select id="min-scalar">
+					                    <option value="0.0001">0.0001</option>
+					                    <option value="0.001" selected="selected">0.001</option>
+					                    <option value="0.01">0.01</option>
+					                    <option value="0.1">0.1</option>
+					                </select><br><br>
+					                </td>
+					            </tr>
+					            <tr>
+					                <td>Colony Size: </td><td>
+					                <select id="colony-size">
+					                    <option value="10">10</option>
+					                    <option value="20">20</option>
+					                    <option value="30" selected="selected">30</option>
+					                    <option value="50">50</option>
+					                    <option value="100">100</option>
+					                    <option value="200">200</option>
+					                </select>
+					                </td>
+					            </tr>
+					            <tr>
+					                <td>Max Iterations: </td>
+					                <td>
+					                    <select id="max-iterations">
+					                        <option value="50">50</option>
+					                        <option value="100">100</option>
+					                        <option value="200" selected="selected">200</option>
+					                        <option value="300">300</option>
+					                        <option value="500">500</option>
+					                    </select>
+					                </td>
+					            </tr>
+					            <tr>
+					                <td>Alpha: </td>
+					                <td>
+					                    <select id="alpha">
+					                        <option value="1" selected="selected">1</option>
+					                        <option value="2">2</option>
+					                        <option value="3">3</option>
+					                        <option value="4">4</option>
+					                        <option value="5">5</option>
+					                        <option value="10">10</option>
+					                        <option value="15">15</option>
+					                    </select>
+					                </td>
+					            </tr>
+					            <tr>
+					                <td>Beta: </td>
+					                <td>
+					                    <select id="beta">
+					                        <option value="1">1</option>
+					                        <option value="2">2</option>
+					                        <option value="3" selected="selected">3</option>
+					                        <option value="4">4</option>
+					                        <option value="5">5</option>
+					                        <option value="10">10</option>
+					                        <option value="15">15</option>
+					                    </select>
+					                </td>
+					            </tr>
+					            <tr>
+					                <td>Rho: </td>
+					                <td>
+					                    <select id="rho">
+					                        <option value="0">0</option>
+					                        <option value="0.001">0.001</option>
+					                        <option value="0.01">0.01</option>
+					                        <option value="0.05">0.05</option>
+					                        <option value="0.1" selected="selected">0.1</option>
+					                        <option value="0.2">0.2</option>
+					                        <option value="0.5">0.5</option>
+					                    </select>
+					                </td>
+					            </tr>
+					            <tr>
+					                <td>Initial Pheromone: </td>
+					                <td>
+					                    <select id="init-pheromone">
+					                        <option value="0">0</option>
+					                        <option value="1" selected="selected">1</option>
+					                        <option value="2">2</option>
+					                        <option value="5">5</option>
+					                        <option value="10">10</option>
+					                        <option value="20">20</option>
+					                        <option value="50">50</option>
+					                    </select>
+					                </td>
+					            </tr>
+					            <tr>
+					                <td>Pheromone Deposit Weight: </td>
+					                <td>
+					                    <select id="pheromone-deposit-weight">
+					                        <option value="1" selected="selected">1</option>
+					                        <option value="2">2</option>
+					                        <option value="5">5</option>
+					                        <option value="10">10</option>
+					                        <option value="20">20</option>
+					                        <option value="50">50</option>
+					                    </select>
+					                </td>
+					            </tr>
+					        </tbody>
+					    </table>
+					</div>
+					<div>
+						<table>
+					            <tbody><tr>
+					                <td colspan="2"><b>Debug Info</b></td>
+					            </tr>
+					            <tr style="display:none;" class="aco-info">
+					                <td>Interation: </td><td id="iteration-info"></td>
+					            </tr>
+					            <tr style="display:none;" class="aco-info">
+					                <td>Best Distance: </td><td id="best-distance"></td>
+					            </tr>
+					            <tr id="aco-buttons">
+					                <td colspan="2"><button id="start-search-btn">Start</button> <button id="clear-graph">Clear</button></td>
+					            </tr>
+					        </tbody>
+					    </table>
+					<div>
+		    	</th>
+		    </tr>
+		</table>
+	</div>
+	<script type="text/javascript">
+		var countLine;
+		function draw_line (){
+			var canvas = document.getElementById("graph");
+			var ctx = canvas.getContext("2d");
+			ctx.moveTo(0,0);
+			ctx.lineTo(200,100);
+			ctx.stroke();
+		}
+
+	</script>
+</body>
+</html>
