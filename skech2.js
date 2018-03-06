@@ -32,13 +32,6 @@ function setup() {
 function draw() {
 	background(128);
 	strokeWeight(5);
-	stroke(0);
-	fill(255);
-	translate(10,10);
-	noFill();
-	rectMode(CENTER);
-	rect(w/2,h/2,w,h/3.0);
-	rect(w/2,h/2,w,h);
 	
 	for (let i = 0; i < nodes.length; i++) {
 	    nodes[i].show();
