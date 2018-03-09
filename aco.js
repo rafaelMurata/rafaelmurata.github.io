@@ -314,12 +314,12 @@ class Ant {
   };
 
   updateCities(nodes,cityProbabilities){
-    var r = Math.random();
-    var total = 0.0;
+    var random_value = Math.random();
+    var wheel_position = 0.0;
     for (var cityIndex in nodes) {
         if (!this.tour.contains(nodes[cityIndex])) {
-            total += cityProbabilities[cityIndex];
-            if (total >= r) {
+            wheel_position += cityProbabilities[cityIndex];
+            if (wheel_position >= random_value) {
                 this.currentCity = nodes[cityIndex];
                 this.tour.addCity(nodes[cityIndex]);
                 return;
@@ -332,12 +332,7 @@ class Ant {
       for (var cityIndex in nodes) {
         if (!this.tour.contains(nodes[cityIndex])) {
             var edge = this.graph.getEdge(this.currentCity, nodes[cityIndex]);
-            if (this.alpha == 1) {
-                var finalPheromoneWeight = edge.getPheromone();
-            } else {
-                var finalPheromoneWeight = Math.pow(edge.getPheromone(), this.alpha);
-            }
-            cityProbabilities[cityIndex] = finalPheromoneWeight * Math.pow(1.0 / edge.getDistance(), this.beta);
+            cityProbabilities[cityIndex] = Math.pow(edge.getPheromone(), this.alpha) * Math.pow(1.0 / edge.getDistance(), this.beta);
         }
       }
     return cityProbabilities;
